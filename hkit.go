@@ -1,11 +1,14 @@
 package hkit
 
 import (
-	"encoding/xml"
+	"bytes"
+	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 // Render .
@@ -17,8 +20,8 @@ func Render(c Component) ([]byte, error) {
 func RenderWithContext(ctx Context, c Component) ([]byte, error) {
 	el := c(ctx)
 
-	if _, ok := el.(xml.Marshaler); ok {
-		return xml.Marshal(el)
+	if r, ok := el.(Renderable); ok {
+		return renderToBytes(r.HTML())
 	}
 
 	for {
@@ -30,32 +33,23 @@ func RenderWithContext(ctx Context, c Component) ([]byte, error) {
 		el = c(ctx)
 	}
 
-	return xml.Marshal(el)
-}
-
-// RenderIndent .
-func RenderIndent(c Component) ([]byte, error) {
-	return RenderIndentWithContext(NewContext(), c)
-}
-
-// RenderIndentWithContext .
-func RenderIndentWithContext(ctx Context, c Component) ([]byte, error) {
-	el := c(ctx)
-
-	if _, ok := el.(xml.Marshaler); ok {
-		return xml.MarshalIndent(el, "", "    ")
+	r, ok := el.(Renderable)
+	if !ok {
+		return nil, errors.New("element is not renderable")
 	}
 
-	for {
-		c, ok := el.(Component)
-		if !ok {
-			break
-		}
+	return renderToBytes(r.HTML())
+}
 
-		el = c(ctx)
+func renderToBytes(t *html.Node) ([]byte, error) {
+	var buf bytes.Buffer
+
+	err := html.Render(&buf, t)
+	if err != nil {
+		return nil, err
 	}
 
-	return xml.MarshalIndent(el, "", "    ")
+	return buf.Bytes(), nil
 }
 
 // Component .
@@ -64,6 +58,11 @@ type Component func(ctx Context) Element
 // Element .
 type Element interface{}
 
+// Renderable .
+type Renderable interface {
+	HTML() *html.Node
+}
+
 type el struct {
 	ctx      Context
 	tag      string
@@ -71,11 +70,18 @@ type el struct {
 	children []Component
 }
 
-func (e *el) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
-	xmlEl := xml.StartElement{Name: xml.Name{Local: e.tag}, Attr: structToXMLAttrs(e.attrs)}
-	err := enc.EncodeToken(xmlEl)
-	if err != nil {
-		return err
+func (e *el) HTML() *html.Node {
+	if e.tag == "_text_" {
+		return &html.Node{
+			Type: html.TextNode,
+			Data: html.EscapeString(strings.Join(e.attrs.([]string), "")),
+		}
+	}
+
+	node := &html.Node{
+		Type: html.ElementNode,
+		Data: e.tag,
+		Attr: structToAttrs(e.attrs),
 	}
 
 	for _, child := range e.children {
@@ -94,19 +100,16 @@ func (e *el) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
 			continue
 		}
 
-		if childEl.(*el).tag == "_text_" {
-			enc.EncodeToken(xml.CharData(strings.Join(childEl.(*el).attrs.([]string), "")))
-			continue
+		if r, ok := childEl.(Renderable); ok {
+			node.AppendChild(r.HTML())
 		}
-
-		childEl.(*el).MarshalXML(enc, xml.StartElement{})
 	}
 
-	return enc.EncodeToken(xmlEl.End())
+	return node
 }
 
-func structToXMLAttrs(s interface{}) []xml.Attr {
-	attrs := []xml.Attr{}
+func structToAttrs(s interface{}) []html.Attribute {
+	attrs := []html.Attribute{}
 
 	if s == nil {
 		return attrs
@@ -133,7 +136,7 @@ func structToXMLAttrs(s interface{}) []xml.Attr {
 		}
 
 		if elem.Field(i).Kind() == reflect.Struct {
-			attrs = append(attrs, structToXMLAttrs(field.Interface())...)
+			attrs = append(attrs, structToAttrs(field.Interface())...)
 			continue
 
 		}
@@ -144,7 +147,7 @@ func structToXMLAttrs(s interface{}) []xml.Attr {
 		}
 
 		name := toKebabCase(elemType.Field(i).Name)
-		attrs = append(attrs, xml.Attr{Name: xml.Name{Local: name}, Value: value})
+		attrs = append(attrs, html.Attribute{Key: name, Val: value})
 	}
 
 	return attrs

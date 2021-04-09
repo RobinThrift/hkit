@@ -12,7 +12,7 @@ func main() {
 	ctx.Set("Title", "From Context")
 	ctx.Set("Nested", "Value")
 
-	value, err := h.RenderIndentWithContext(
+	value, err := h.RenderWithContext(
 		ctx,
 		layout(compA()),
 	)
