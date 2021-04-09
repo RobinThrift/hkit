@@ -90,6 +90,10 @@ func (e *el) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
 			childEl = c(e.ctx)
 		}
 
+		if childEl == nil {
+			continue
+		}
+
 		if childEl.(*el).tag == "_text_" {
 			enc.EncodeToken(xml.CharData(strings.Join(childEl.(*el).attrs.([]string), "")))
 			continue
