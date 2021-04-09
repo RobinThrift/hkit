@@ -90,9 +90,12 @@ func getElements() (map[string][]string, error) {
 
 			attrs := []string{}
 
-			el.Find("td").EachWithBreak(func(j int, td *goquery.Selection) bool {
+			tr.Find("td").EachWithBreak(func(j int, td *goquery.Selection) bool {
 				if j == 4 {
 					for _, attr := range strings.Split(strings.TrimSpace(td.Text()), ";") {
+						if attr == "globals" {
+							continue
+						}
 						attrs = append(attrs, toPascalCase(attr))
 					}
 					return false

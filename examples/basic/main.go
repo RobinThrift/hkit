@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	value, err := h.RenderIndent(
+	value, err := h.Render(
 		layout(compA()),
 	)
 	if err != nil {
@@ -27,12 +27,23 @@ var compA = func() h.Component {
 			},
 			h.Text("hello"),
 		),
+		h.Input(&h.InputAttrs{
+			Type:  "text",
+			ID:    "something",
+			Value: "value",
+		}),
 	)
 }
 
 var layout = func(children ...h.Component) h.Component {
 	return h.Html(nil,
-		h.Head(nil, h.Title(nil, h.Text("Hello"))),
+		h.Head(nil,
+			h.Title(nil, h.Text("Hello")),
+			h.Link(&h.LinkAttrs{
+				Rel:  "stylesheet",
+				Href: "test.css",
+			}),
+		),
 		h.Body(nil, children...),
 	)
 }
