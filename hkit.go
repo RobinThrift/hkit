@@ -10,41 +10,95 @@ import (
 
 // Render .
 func Render(c Component) ([]byte, error) {
-	return xml.Marshal(c)
+	return RenderWithContext(NewContext(), c)
+}
+
+// RenderWithContext .
+func RenderWithContext(ctx Context, c Component) ([]byte, error) {
+	el := c(ctx)
+
+	if _, ok := el.(xml.Marshaler); ok {
+		return xml.Marshal(el)
+	}
+
+	for {
+		c, ok := el.(Component)
+		if !ok {
+			break
+		}
+
+		el = c(ctx)
+	}
+
+	return xml.Marshal(el)
 }
 
 // RenderIndent .
 func RenderIndent(c Component) ([]byte, error) {
-	return xml.MarshalIndent(c, "", "    ")
+	return RenderIndentWithContext(NewContext(), c)
+}
+
+// RenderIndentWithContext .
+func RenderIndentWithContext(ctx Context, c Component) ([]byte, error) {
+	el := c(ctx)
+
+	if _, ok := el.(xml.Marshaler); ok {
+		return xml.MarshalIndent(el, "", "    ")
+	}
+
+	for {
+		c, ok := el.(Component)
+		if !ok {
+			break
+		}
+
+		el = c(ctx)
+	}
+
+	return xml.MarshalIndent(el, "", "    ")
 }
 
 // Component .
-type Component interface {
-}
+type Component func(ctx Context) Element
 
-type comp struct {
+// Element .
+type Element interface{}
+
+type el struct {
+	ctx      Context
 	tag      string
 	attrs    interface{}
 	children []Component
 }
 
-func (c *comp) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	el := xml.StartElement{Name: xml.Name{Local: c.tag}, Attr: structToXMLAttrs(c.attrs)}
-	err := e.EncodeToken(el)
+func (e *el) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
+	xmlEl := xml.StartElement{Name: xml.Name{Local: e.tag}, Attr: structToXMLAttrs(e.attrs)}
+	err := enc.EncodeToken(xmlEl)
 	if err != nil {
 		return err
 	}
 
-	for _, child := range c.children {
-		if child.(*comp).tag == "_text_" {
-			e.EncodeToken(xml.CharData(child.(*comp).attrs.(string)))
+	for _, child := range e.children {
+		childEl := child(e.ctx)
+
+		for {
+			c, ok := childEl.(Component)
+			if !ok {
+				break
+			}
+
+			childEl = c(e.ctx)
+		}
+
+		if childEl.(*el).tag == "_text_" {
+			enc.EncodeToken(xml.CharData(strings.Join(childEl.(*el).attrs.([]string), "")))
 			continue
 		}
 
-		child.(*comp).MarshalXML(e, xml.StartElement{})
+		childEl.(*el).MarshalXML(enc, xml.StartElement{})
 	}
 
-	return e.EncodeToken(el.End())
+	return enc.EncodeToken(xmlEl.End())
 }
 
 func structToXMLAttrs(s interface{}) []xml.Attr {

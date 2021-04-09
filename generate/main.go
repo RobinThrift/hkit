@@ -17,18 +17,6 @@ func main() {
 
 	f := jen.NewFile("hkit")
 
-	// Should produce something like:
-	// struct DivAttrs {
-	//     GlobalAttrs
-	//     ...
-	//}
-	// func Div(attrs *DivAttrs, children ...Component) Component {
-	// 	return &builtin{
-	// 		_tag:     "div",
-	// 		attrs:    attrs,
-	// 		children: children,
-	// 	}
-	// }
 	for el, attrs := range elements {
 		f.Comment(strings.Title(el) + "Attrs .")
 
@@ -49,11 +37,16 @@ func main() {
 
 		f.Comment(strings.Title(el) + " HTML element.")
 		f.Func().Id(strings.Title(el)).Params(jen.Id("attrs").Id("*"+strings.Title(el)+"Attrs"), jen.Id("children").Op("...").Id("Component")).Id("Component").Block(
-			jen.Return(jen.Id("&comp").Values(jen.Dict{
-				jen.Id("tag"):      jen.Lit(el),
-				jen.Id("attrs"):    jen.Id("attrs"),
-				jen.Id("children"): jen.Id("children"),
-			},
+			jen.Return(jen.Func().Params(
+				jen.Id("ctx").Id("Context"),
+			).Id("Element").Block(
+				jen.Return(jen.Id("&el").Values(jen.Dict{
+					jen.Id("ctx"):      jen.Id("ctx"),
+					jen.Id("tag"):      jen.Lit(el),
+					jen.Id("attrs"):    jen.Id("attrs"),
+					jen.Id("children"): jen.Id("children"),
+				},
+				)),
 			)),
 		)
 

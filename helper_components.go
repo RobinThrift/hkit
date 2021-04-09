@@ -1,10 +1,12 @@
 package hkit
 
 // Text .
-func Text(t string) Component {
-	return &comp{
-		tag:   "_text_",
-		attrs: t,
+func Text(t ...string) Component {
+	return func(ctx Context) Element {
+		return &el{
+			tag:   "_text_",
+			attrs: t,
+		}
 	}
 }
 
