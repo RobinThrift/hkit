@@ -64,7 +64,7 @@ func getElements() (map[string][]string, error) {
 		"html": {},
 	}
 
-	res, err := http.Get("https://html.spec.whatwg.org")
+	res, err := http.Get("https://html.spec.whatwg.org/multipage/indices.html")
 	if err != nil {
 		return elements, err
 	}
