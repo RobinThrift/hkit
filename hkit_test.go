@@ -30,27 +30,6 @@ func TestBasics(t *testing.T) {
 	assert.Equal(t, expectedIndent, b.String())
 }
 
-func TestHFuncBasics(t *testing.T) {
-	var b bytes.Buffer
-
-	markup := H(
-		Div, &DivProps{ID: "test2"},
-		H(
-			Div, nil,
-			Text("H func test"),
-		),
-	)
-
-	expectedIndent := `<div id="test2">
-    <div>
-        H func test
-    </div>
-</div>`
-
-	_ = markup.RenderIndent(&b, "", "    ")
-	assert.Equal(t, expectedIndent, b.String())
-}
-
 func TestCustomComponent(t *testing.T) {
 	var b bytes.Buffer
 

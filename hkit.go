@@ -1,15 +1,12 @@
 package hkit
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 )
 
 type ComponentFunc[P Props] func(P, ...Component) Component
-
-func H[P Props](comp ComponentFunc[P], props P, children ...Component) Component {
-	return comp(props, children...)
-}
 
 type Component interface {
 	Render(w io.Writer) error
@@ -35,32 +32,32 @@ func Tag[P Props](name string, props P, children ...Component) Component {
 	}
 }
 
-func (b *tag[P]) Render(w io.Writer) error {
-	if b == nil {
+func (t *tag[P]) Render(w io.Writer) error {
+	if t == nil {
 		return nil
 	}
 
-	err := writeTag(b.name, b.props, b.selfClosing, w)
+	err := writeTag(t.name, t.props, t.selfClosing, w)
 	if err != nil {
 		return err
 	}
 
-	if b.selfClosing {
+	if t.selfClosing {
 		return nil
 	}
 
-	for _, c := range b.children {
+	for _, c := range t.children {
 		err = c.Render(w)
 		if err != nil {
 			return err
 		}
 	}
 
-	return writeEndTag(b.name, w)
+	return writeEndTag(t.name, w)
 }
 
-func (b *tag[P]) RenderIndent(w io.Writer, prefix string, indent string) error { //nolint: varnamelen
-	if b == nil {
+func (t *tag[P]) RenderIndent(w io.Writer, prefix string, indent string) error { //nolint: varnamelen
+	if t == nil {
 		return nil
 	}
 
@@ -69,16 +66,20 @@ func (b *tag[P]) RenderIndent(w io.Writer, prefix string, indent string) error {
 		return err
 	}
 
-	err = writeTag(b.name, b.props, b.selfClosing, w)
+	err = writeTag(t.name, t.props, t.selfClosing, w)
 	if err != nil {
 		return err
 	}
 
-	if b.selfClosing {
+	if t.selfClosing {
 		return nil
 	}
 
-	for _, c := range b.children {
+	for _, c := range t.children {
+		if c == nil {
+			continue
+		}
+
 		_, err = w.Write([]byte("\n"))
 		if err != nil {
 			return err
@@ -100,7 +101,7 @@ func (b *tag[P]) RenderIndent(w io.Writer, prefix string, indent string) error {
 		return err
 	}
 
-	return writeEndTag(b.name, w)
+	return writeEndTag(t.name, w)
 }
 
 func writeTag[P Props](tag string, props P, selfClosing bool, w io.Writer) error {
@@ -134,12 +135,16 @@ func writeAttr(name string, value any, w io.Writer) error {
 }
 
 func writeStyle(style map[string]string, w io.Writer) error {
+	var b bytes.Buffer
+
 	for k, v := range style {
-		_, err := w.Write([]byte(k + ":" + v + ";"))
+		_, err := b.WriteString(k + ":" + v + ";")
 		if err != nil {
 			return err
 		}
 	}
 
-	return nil
+	_, err := b.WriteTo(w)
+
+	return err
 }
