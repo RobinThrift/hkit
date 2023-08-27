@@ -7,7 +7,11 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/dave/jennifer/jen"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
+
+var enCaser = cases.Title(language.English)
 
 func main() {
 	elements, err := getElements()
@@ -15,54 +19,87 @@ func main() {
 		log.Fatal(err)
 	}
 
-	f := jen.NewFile("hkit")
+	f := jen.NewFile("hkit") // nolint: varnamelen
 
-	for el, attrs := range elements {
-		f.Comment(strings.Title(el) + "Attrs .")
+	for _, el := range elements { // nolint: varnamelen
+		propsStructName := enCaser.String(el.name) + "Props"
 
-		attrFields := make([]jen.Code, len(attrs)+4)
-		attrFields[0] = jen.Id("GlobalAttrs")
-		attrFields[1] = jen.Id("ID").String()
-		attrFields[2] = jen.Id("Class").String()
-		attrFields[3] = jen.Id("Style").String()
-		for i, a := range attrs {
-			attrFields[i+4] = jen.Id(a).String()
+		propsFields := make([]jen.Code, len(el.attrs)+5)
+
+		propsFields[0] = jen.Id("*GenericProps")
+		propsFields[1] = jen.Id("X").Map(jen.String()).String()
+		propsFields[2] = jen.Id("ID").String()
+		propsFields[3] = jen.Id("Class").String()
+		propsFields[4] = jen.Id("Style").Map(jen.String()).String()
+		for i, a := range el.attrs {
+			propsFields[i+5] = jen.Id(a).String()
 		}
 
-		f.Type().Id(strings.Title(el) + "Attrs").Struct(
-			attrFields...,
+		f.Type().Id(propsStructName).Struct(
+			propsFields...,
+		)
+
+		writeStatements := make([]jen.Code, 0, len(el.attrs)+6)
+
+		writeStatements = append(writeStatements, jen.If(jen.Id("p").Op("==").Nil()).Block(jen.Return(jen.Nil())))
+
+		writeStatements = append(writeStatements, jen.If(jen.Id("p").Dot("GenericProps").Op("!=").Nil()).Block(
+			jen.Id("err").Op(":=").Id("p").Dot("GenericProps").Dot("writeTo").Call(jen.Id("w")),
+			jen.If(jen.Id("err").Op("!=").Nil()).Block(
+				jen.Return(jen.Id("err")),
+			),
+		))
+
+		writeStatements = append(writeStatements, jen.If(jen.Id("p").Dot("Style").Op("!=").Nil()).Block(
+			jen.Id("err").Op(":=").Id("writeStyle").Call(jen.Id("p").Dot("Style"), jen.Id("w")),
+			jen.If(jen.Id("err").Op("!=").Nil()).Block(
+				jen.Return(jen.Id("err")),
+			),
+		))
+
+		for _, p := range append(el.attrs, "ID", "Class") {
+			writeStatements = append(writeStatements, jen.If(jen.Id("p").Dot(p).Op("!=").Lit("")).Block(
+				jen.Id("err").Op(":=").Id("writeAttr").Call(jen.Lit(strings.ToLower(p)), jen.Id("p").Dot(p), jen.Id("w")),
+				jen.If(jen.Id("err").Op("!=").Nil()).Block(
+					jen.Return(jen.Id("err")),
+				),
+			))
+		}
+
+		writeStatements = append(writeStatements, jen.Return(jen.Nil()))
+
+		f.Func().Params(jen.Id("p").Op("*").Id(propsStructName)).Id("writeTo").Params(jen.Id("w").Qual("io", "Writer")).Id("error").Block(
+			writeStatements...,
 		)
 
 		f.Line()
 
-		f.Comment(strings.Title(el) + " HTML element.")
-		f.Func().Id(strings.Title(el)).Params(jen.Id("attrs").Id("*"+strings.Title(el)+"Attrs"), jen.Id("children").Op("...").Id("Component")).Id("Component").Block(
-			jen.Return(jen.Func().Params(
-				jen.Id("ctx").Id("Context"),
-			).Id("Element").Block(
-				jen.Return(jen.Id("&el").Values(jen.Dict{
-					jen.Id("ctx"):      jen.Id("ctx"),
-					jen.Id("tag"):      jen.Lit(el),
-					jen.Id("attrs"):    jen.Id("attrs"),
-					jen.Id("children"): jen.Id("children"),
-				},
-				)),
-			)),
+		f.Func().Id(enCaser.String(el.name)).Params(jen.Id("props").Op("*").Id(propsStructName), jen.Id("children").Op("...").Id("Component")).Id("Component").Block(
+			jen.Return(jen.Id("&tag").Types(jen.Op("*").Id(propsStructName)).Values(jen.Dict{
+				jen.Id("name"):        jen.Lit(el.name),
+				jen.Id("props"):       jen.Id("props"),
+				jen.Id("children"):    jen.Id("children"),
+				jen.Id("selfClosing"): jen.Lit(el.isSelfClosing),
+			})),
 		)
 
 		f.Line()
 	}
 
-	err = f.Save("builtins.go")
+	err = f.Save("builtins_gen.go")
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func getElements() (map[string][]string, error) {
-	elements := map[string][]string{
-		"html": {},
-	}
+type element struct {
+	name          string
+	attrs         []string
+	isSelfClosing bool
+}
+
+func getElements() ([]element, error) { // nolint: gocognit
+	elements := make([]element, 0, 110)
 
 	res, err := http.Get("https://html.spec.whatwg.org/multipage/indices.html")
 	if err != nil {
@@ -88,15 +125,23 @@ func getElements() (map[string][]string, error) {
 				return
 			}
 
-			attrs := []string{}
+			currEl := element{
+				name:  name,
+				attrs: []string{},
+			}
 
 			tr.Find("td").EachWithBreak(func(j int, td *goquery.Selection) bool {
+				if j == 3 {
+					if td.Text() == "empty" {
+						currEl.isSelfClosing = true
+					}
+				}
 				if j == 4 {
 					for _, attr := range strings.Split(strings.TrimSpace(td.Text()), ";") {
 						if attr == "globals" {
 							continue
 						}
-						attrs = append(attrs, toPascalCase(attr))
+						currEl.attrs = append(currEl.attrs, toPascalCase(attr))
 					}
 					return false
 				}
@@ -106,12 +151,13 @@ func getElements() (map[string][]string, error) {
 
 			if name == "h1, h2, h3, h4, h5, h6" {
 				for _, n := range strings.Split(name, ", ") {
-					elements[n] = attrs
+					headerEl := element{name: n, attrs: currEl.attrs}
+					elements = append(elements, headerEl)
 				}
 				return
 			}
 
-			elements[name] = attrs
+			elements = append(elements, currEl)
 		})
 	})
 
@@ -119,7 +165,7 @@ func getElements() (map[string][]string, error) {
 }
 
 // from https://github.com/iancoleman/strcase/blob/master/camel.go
-func toPascalCase(s string) string {
+func toPascalCase(s string) string { // nolint: gocognit
 	if s == "" {
 		return s
 	}

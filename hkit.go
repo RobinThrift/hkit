@@ -1,164 +1,145 @@
 package hkit
 
 import (
-	"bytes"
-	"errors"
 	"fmt"
-	"reflect"
-	"regexp"
-	"strings"
-
-	"golang.org/x/net/html"
+	"io"
 )
 
-// Render .
-func Render(c Component) ([]byte, error) {
-	return RenderWithContext(NewContext(), c)
+type ComponentFunc[P Props] func(P, ...Component) Component
+
+func H[P Props](comp ComponentFunc[P], props P, children ...Component) Component {
+	return comp(props, children...)
 }
 
-// RenderWithContext .
-func RenderWithContext(ctx Context, c Component) ([]byte, error) {
-	el := c(ctx)
-
-	if r, ok := el.(Renderable); ok {
-		return renderToBytes(r.HTML())
-	}
-
-	for {
-		c, ok := el.(Component)
-		if !ok {
-			break
-		}
-
-		el = c(ctx)
-	}
-
-	r, ok := el.(Renderable)
-	if !ok {
-		return nil, errors.New("element is not renderable")
-	}
-
-	return renderToBytes(r.HTML())
+type Component interface {
+	Render(w io.Writer) error
+	RenderIndent(w io.Writer, prefix string, indent string) error
 }
 
-func renderToBytes(t *html.Node) ([]byte, error) {
-	var buf bytes.Buffer
+type Props interface {
+	writeTo(w io.Writer) error
+}
 
-	err := html.Render(&buf, t)
+type tag[P Props] struct {
+	name        string
+	props       P
+	children    []Component
+	selfClosing bool
+}
+
+func Tag[P Props](name string, props P, children ...Component) Component {
+	return &tag[P]{
+		name:     name,
+		props:    props,
+		children: children,
+	}
+}
+
+func (b *tag[P]) Render(w io.Writer) error {
+	if b == nil {
+		return nil
+	}
+
+	err := writeTag(b.name, b.props, b.selfClosing, w)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return buf.Bytes(), nil
+	if b.selfClosing {
+		return nil
+	}
+
+	for _, c := range b.children {
+		err = c.Render(w)
+		if err != nil {
+			return err
+		}
+	}
+
+	return writeEndTag(b.name, w)
 }
 
-// Component .
-type Component func(ctx Context) Element
+func (b *tag[P]) RenderIndent(w io.Writer, prefix string, indent string) error { //nolint: varnamelen
+	if b == nil {
+		return nil
+	}
 
-// Element .
-type Element interface{}
+	_, err := w.Write([]byte(prefix))
+	if err != nil {
+		return err
+	}
 
-// Renderable .
-type Renderable interface {
-	HTML() *html.Node
+	err = writeTag(b.name, b.props, b.selfClosing, w)
+	if err != nil {
+		return err
+	}
+
+	if b.selfClosing {
+		return nil
+	}
+
+	for _, c := range b.children {
+		_, err = w.Write([]byte("\n"))
+		if err != nil {
+			return err
+		}
+
+		err = c.RenderIndent(w, prefix+indent, indent)
+		if err != nil {
+			return err
+		}
+
+		_, err = w.Write([]byte("\n"))
+		if err != nil {
+			return err
+		}
+	}
+
+	_, err = w.Write([]byte(prefix))
+	if err != nil {
+		return err
+	}
+
+	return writeEndTag(b.name, w)
 }
 
-type el struct {
-	ctx      Context
-	tag      string
-	attrs    interface{}
-	children []Component
+func writeTag[P Props](tag string, props P, selfClosing bool, w io.Writer) error {
+	_, err := w.Write([]byte("<" + tag))
+	if err != nil {
+		return err
+	}
+
+	err = props.writeTo(w)
+	if err != nil {
+		return err
+	}
+
+	if selfClosing {
+		_, err = w.Write([]byte(" />"))
+	} else {
+		_, err = w.Write([]byte(">"))
+	}
+
+	return err
 }
 
-func (e *el) HTML() *html.Node {
-	if e.tag == "_text_" {
-		return &html.Node{
-			Type: html.TextNode,
-			Data: html.EscapeString(strings.Join(e.attrs.([]string), "")),
-		}
-	}
-
-	node := &html.Node{
-		Type: html.ElementNode,
-		Data: e.tag,
-		Attr: structToAttrs(e.attrs),
-	}
-
-	for _, child := range e.children {
-		childEl := child(e.ctx)
-
-		for {
-			c, ok := childEl.(Component)
-			if !ok {
-				break
-			}
-
-			childEl = c(e.ctx)
-		}
-
-		if childEl == nil {
-			continue
-		}
-
-		if r, ok := childEl.(Renderable); ok {
-			node.AppendChild(r.HTML())
-		}
-	}
-
-	return node
+func writeEndTag(tag string, w io.Writer) error {
+	_, err := w.Write([]byte("</" + tag + ">"))
+	return err
 }
 
-func structToAttrs(s interface{}) []html.Attribute {
-	attrs := []html.Attribute{}
-
-	if s == nil {
-		return attrs
-	}
-
-	val := reflect.ValueOf(s)
-	elem := val
-
-	if val.Kind() == reflect.Ptr {
-		elem = val.Elem()
-	}
-
-	if elem.Kind() != reflect.Struct {
-		return attrs
-	}
-
-	numfields := elem.NumField()
-	elemType := elem.Type()
-	for i := 0; i < numfields; i++ {
-		field := elem.Field(i)
-
-		if !field.CanSet() {
-			continue
-		}
-
-		if elem.Field(i).Kind() == reflect.Struct {
-			attrs = append(attrs, structToAttrs(field.Interface())...)
-			continue
-
-		}
-
-		value := fmt.Sprint(field.Interface())
-		if value == "" {
-			continue
-		}
-
-		name := toKebabCase(elemType.Field(i).Name)
-		attrs = append(attrs, html.Attribute{Key: name, Val: value})
-	}
-
-	return attrs
+func writeAttr(name string, value any, w io.Writer) error {
+	_, err := fmt.Fprintf(w, ` %s="%v"`, name, value)
+	return err
 }
 
-// inspired by https://gist.github.com/stoewer/fbe273b711e6a06315d19552dd4d33e6
-var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
+func writeStyle(style map[string]string, w io.Writer) error {
+	for k, v := range style {
+		_, err := w.Write([]byte(k + ":" + v + ";"))
+		if err != nil {
+			return err
+		}
+	}
 
-func toKebabCase(str string) string {
-	kebab := matchFirstCap.ReplaceAllString(str, "${1}-${2}")
-	kebab = matchAllCap.ReplaceAllString(kebab, "${1}-${2}")
-	return strings.ToLower(kebab)
+	return nil
 }

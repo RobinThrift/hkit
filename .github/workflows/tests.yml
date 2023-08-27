@@ -1,4 +1,4 @@
-name: ci
+name: tests
 
 on:
   push:
@@ -7,17 +7,80 @@ on:
     branches: [ main ]
 
 jobs:
-  Tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
+  lint:
+    runs-on: ubuntu-latest
     steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
+    - name: Set up Go 1.21
+      uses: actions/setup-go@v3
       with:
-        go-version: ^1.15
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: Run Tests
-      run: go test -short ./...
+        go-version: ^1.21
+    - name: Install just 1.14.0
+      uses: kodeshack/action-install-gh-release@v1.3.0
+      with:
+        owner: casey
+        repo: just
+        version: '1.14.0'
+        test: just --version
+    - name: Install staticcheck 2023.1.2
+      uses: kodeshack/action-install-gh-release@v1.3.0
+      with:
+        owner: dominikh
+        repo: go-tools
+        version: '2023.1.3'
+        bin: staticcheck/staticcheck
+        test: staticcheck -version
+    - name: Install golangci-lint v1.52.2
+      uses: kodeshack/action-install-gh-release@v1.3.0
+      with:
+        owner: golangci
+        repo: golangci-lint
+        version: 'v1.52.2'
+        bin: golangci-lint-1.52.2-{{platform}}-{{arch}}/golangci-lint
+        test: golangci-lint version
+    - uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+    - uses: actions/checkout@v3
+    - name: "Lint"
+      run: |
+        just lint
+    - name: Add lint to step summary
+      if: ${{ failure() }}
+      run: |
+        just lint > $GITHUB_STEP_SUMMARY
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go 1.21
+      uses: actions/setup-go@v3
+      with:
+        go-version: ^1.21
+
+    - name: Install just 1.14.0
+      uses: kodeshack/action-install-gh-release@v1.3.0
+      with:
+        owner: casey
+        repo: just
+        version: '1.14.0'
+        test: just --version
+
+    - uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - uses: actions/checkout@v3
+
+    - name: Test
+      run: |
+        just test -race -coverprofile coverage.txt -covermode atomic
+
+    - name: Render coverage as text
+      run: |
+        go tool cover -func coverage.txt > $GITHUB_STEP_SUMMARY
