@@ -4,7 +4,7 @@ import "io"
 
 type AProps struct {
 	*GenericProps
-	X              map[string]string
+	X              Attributes
 	ID             string
 	Class          string
 	Style          map[string]string
@@ -30,6 +30,12 @@ func (p *AProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -108,7 +114,7 @@ func A(props *AProps, children ...Component) Component {
 
 type AbbrProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -126,6 +132,12 @@ func (p *AbbrProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -156,7 +168,7 @@ func Abbr(props *AbbrProps, children ...Component) Component {
 
 type AddressProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -174,6 +186,12 @@ func (p *AddressProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -204,7 +222,7 @@ func Address(props *AddressProps, children ...Component) Component {
 
 type AreaProps struct {
 	*GenericProps
-	X              map[string]string
+	X              Attributes
 	ID             string
 	Class          string
 	Style          map[string]string
@@ -231,6 +249,12 @@ func (p *AreaProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -315,7 +339,7 @@ func Area(props *AreaProps, children ...Component) Component {
 
 type ArticleProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -333,6 +357,12 @@ func (p *ArticleProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -363,7 +393,7 @@ func Article(props *ArticleProps, children ...Component) Component {
 
 type AsideProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -381,6 +411,12 @@ func (p *AsideProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -411,7 +447,7 @@ func Aside(props *AsideProps, children ...Component) Component {
 
 type AudioProps struct {
 	*GenericProps
-	X           map[string]string
+	X           Attributes
 	ID          string
 	Class       string
 	Style       map[string]string
@@ -436,6 +472,12 @@ func (p *AudioProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -508,7 +550,7 @@ func Audio(props *AudioProps, children ...Component) Component {
 
 type BProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -526,6 +568,12 @@ func (p *BProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -556,7 +604,7 @@ func B(props *BProps, children ...Component) Component {
 
 type BaseProps struct {
 	*GenericProps
-	X      map[string]string
+	X      Attributes
 	ID     string
 	Class  string
 	Style  map[string]string
@@ -576,6 +624,12 @@ func (p *BaseProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -618,7 +672,7 @@ func Base(props *BaseProps, children ...Component) Component {
 
 type BdiProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -636,6 +690,12 @@ func (p *BdiProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -666,7 +726,7 @@ func Bdi(props *BdiProps, children ...Component) Component {
 
 type BdoProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -684,6 +744,12 @@ func (p *BdoProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -714,7 +780,7 @@ func Bdo(props *BdoProps, children ...Component) Component {
 
 type BlockquoteProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -733,6 +799,12 @@ func (p *BlockquoteProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -769,7 +841,7 @@ func Blockquote(props *BlockquoteProps, children ...Component) Component {
 
 type BodyProps struct {
 	*GenericProps
-	X                    map[string]string
+	X                    Attributes
 	ID                   string
 	Class                string
 	Style                map[string]string
@@ -803,6 +875,12 @@ func (p *BodyProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -929,7 +1007,7 @@ func Body(props *BodyProps, children ...Component) Component {
 
 type BrProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -947,6 +1025,12 @@ func (p *BrProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -977,7 +1061,7 @@ func Br(props *BrProps, children ...Component) Component {
 
 type ButtonProps struct {
 	*GenericProps
-	X                   map[string]string
+	X                   Attributes
 	ID                  string
 	Class               string
 	Style               map[string]string
@@ -1007,6 +1091,12 @@ func (p *ButtonProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1109,7 +1199,7 @@ func Button(props *ButtonProps, children ...Component) Component {
 
 type CanvasProps struct {
 	*GenericProps
-	X      map[string]string
+	X      Attributes
 	ID     string
 	Class  string
 	Style  map[string]string
@@ -1129,6 +1219,12 @@ func (p *CanvasProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1171,7 +1267,7 @@ func Canvas(props *CanvasProps, children ...Component) Component {
 
 type CaptionProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1189,6 +1285,12 @@ func (p *CaptionProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1219,7 +1321,7 @@ func Caption(props *CaptionProps, children ...Component) Component {
 
 type CiteProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1237,6 +1339,12 @@ func (p *CiteProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1267,7 +1375,7 @@ func Cite(props *CiteProps, children ...Component) Component {
 
 type CodeProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1285,6 +1393,12 @@ func (p *CodeProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1315,7 +1429,7 @@ func Code(props *CodeProps, children ...Component) Component {
 
 type ColProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1334,6 +1448,12 @@ func (p *ColProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1370,7 +1490,7 @@ func Col(props *ColProps, children ...Component) Component {
 
 type ColgroupProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1389,6 +1509,12 @@ func (p *ColgroupProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1425,7 +1551,7 @@ func Colgroup(props *ColgroupProps, children ...Component) Component {
 
 type DataProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1444,6 +1570,12 @@ func (p *DataProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1480,7 +1612,7 @@ func Data(props *DataProps, children ...Component) Component {
 
 type DatalistProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1498,6 +1630,12 @@ func (p *DatalistProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1528,7 +1666,7 @@ func Datalist(props *DatalistProps, children ...Component) Component {
 
 type DdProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1546,6 +1684,12 @@ func (p *DdProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1576,7 +1720,7 @@ func Dd(props *DdProps, children ...Component) Component {
 
 type DelProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -1596,6 +1740,12 @@ func (p *DelProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1638,7 +1788,7 @@ func Del(props *DelProps, children ...Component) Component {
 
 type DetailsProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1657,6 +1807,12 @@ func (p *DetailsProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1693,7 +1849,7 @@ func Details(props *DetailsProps, children ...Component) Component {
 
 type DfnProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1711,6 +1867,12 @@ func (p *DfnProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1741,7 +1903,7 @@ func Dfn(props *DfnProps, children ...Component) Component {
 
 type DialogProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1760,6 +1922,12 @@ func (p *DialogProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1796,7 +1964,7 @@ func Dialog(props *DialogProps, children ...Component) Component {
 
 type DivProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1814,6 +1982,12 @@ func (p *DivProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1844,7 +2018,7 @@ func Div(props *DivProps, children ...Component) Component {
 
 type DlProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1862,6 +2036,12 @@ func (p *DlProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1892,7 +2072,7 @@ func Dl(props *DlProps, children ...Component) Component {
 
 type DtProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1910,6 +2090,12 @@ func (p *DtProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1940,7 +2126,7 @@ func Dt(props *DtProps, children ...Component) Component {
 
 type EmProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -1958,6 +2144,12 @@ func (p *EmProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -1988,7 +2180,7 @@ func Em(props *EmProps, children ...Component) Component {
 
 type EmbedProps struct {
 	*GenericProps
-	X      map[string]string
+	X      Attributes
 	ID     string
 	Class  string
 	Style  map[string]string
@@ -2011,6 +2203,12 @@ func (p *EmbedProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2071,7 +2269,7 @@ func Embed(props *EmbedProps, children ...Component) Component {
 
 type FieldsetProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -2092,6 +2290,12 @@ func (p *FieldsetProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2140,7 +2344,7 @@ func Fieldset(props *FieldsetProps, children ...Component) Component {
 
 type FigcaptionProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2158,6 +2362,12 @@ func (p *FigcaptionProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2188,7 +2398,7 @@ func Figcaption(props *FigcaptionProps, children ...Component) Component {
 
 type FigureProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2206,6 +2416,12 @@ func (p *FigureProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2236,7 +2452,7 @@ func Figure(props *FigureProps, children ...Component) Component {
 
 type FooterProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2254,6 +2470,12 @@ func (p *FooterProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2284,7 +2506,7 @@ func Footer(props *FooterProps, children ...Component) Component {
 
 type FormProps struct {
 	*GenericProps
-	X             map[string]string
+	X             Attributes
 	ID            string
 	Class         string
 	Style         map[string]string
@@ -2311,6 +2533,12 @@ func (p *FormProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2395,7 +2623,7 @@ func Form(props *FormProps, children ...Component) Component {
 
 type H1Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2413,6 +2641,12 @@ func (p *H1Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2443,7 +2677,7 @@ func H1(props *H1Props, children ...Component) Component {
 
 type H2Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2461,6 +2695,12 @@ func (p *H2Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2491,7 +2731,7 @@ func H2(props *H2Props, children ...Component) Component {
 
 type H3Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2509,6 +2749,12 @@ func (p *H3Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2539,7 +2785,7 @@ func H3(props *H3Props, children ...Component) Component {
 
 type H4Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2557,6 +2803,12 @@ func (p *H4Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2587,7 +2839,7 @@ func H4(props *H4Props, children ...Component) Component {
 
 type H5Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2605,6 +2857,12 @@ func (p *H5Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2635,7 +2893,7 @@ func H5(props *H5Props, children ...Component) Component {
 
 type H6Props struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2653,6 +2911,12 @@ func (p *H6Props) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2683,7 +2947,7 @@ func H6(props *H6Props, children ...Component) Component {
 
 type HeadProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2701,6 +2965,12 @@ func (p *HeadProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2731,7 +3001,7 @@ func Head(props *HeadProps, children ...Component) Component {
 
 type HeaderProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2749,6 +3019,12 @@ func (p *HeaderProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2779,7 +3055,7 @@ func Header(props *HeaderProps, children ...Component) Component {
 
 type HgroupProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2797,6 +3073,12 @@ func (p *HgroupProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2827,7 +3109,7 @@ func Hgroup(props *HgroupProps, children ...Component) Component {
 
 type HrProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2845,6 +3127,12 @@ func (p *HrProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2875,7 +3163,7 @@ func Hr(props *HrProps, children ...Component) Component {
 
 type HtmlProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -2894,6 +3182,12 @@ func (p *HtmlProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2930,7 +3224,7 @@ func Html(props *HtmlProps, children ...Component) Component {
 
 type IProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -2948,6 +3242,12 @@ func (p *IProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -2978,7 +3278,7 @@ func I(props *IProps, children ...Component) Component {
 
 type IframeProps struct {
 	*GenericProps
-	X               map[string]string
+	X               Attributes
 	ID              string
 	Class           string
 	Style           map[string]string
@@ -3006,6 +3306,12 @@ func (p *IframeProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3096,7 +3402,7 @@ func Iframe(props *IframeProps, children ...Component) Component {
 
 type ImgProps struct {
 	*GenericProps
-	X              map[string]string
+	X              Attributes
 	ID             string
 	Class          string
 	Style          map[string]string
@@ -3127,6 +3433,12 @@ func (p *ImgProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3235,7 +3547,7 @@ func Img(props *ImgProps, children ...Component) Component {
 
 type InputProps struct {
 	*GenericProps
-	X                   map[string]string
+	X                   Attributes
 	ID                  string
 	Class               string
 	Style               map[string]string
@@ -3285,6 +3597,12 @@ func (p *InputProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3507,7 +3825,7 @@ func Input(props *InputProps, children ...Component) Component {
 
 type InsProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -3527,6 +3845,12 @@ func (p *InsProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3569,7 +3893,7 @@ func Ins(props *InsProps, children ...Component) Component {
 
 type KbdProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -3587,6 +3911,12 @@ func (p *KbdProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3617,7 +3947,7 @@ func Kbd(props *KbdProps, children ...Component) Component {
 
 type LabelProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -3636,6 +3966,12 @@ func (p *LabelProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3672,7 +4008,7 @@ func Label(props *LabelProps, children ...Component) Component {
 
 type LegendProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -3690,6 +4026,12 @@ func (p *LegendProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3720,7 +4062,7 @@ func Legend(props *LegendProps, children ...Component) Component {
 
 type LiProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -3739,6 +4081,12 @@ func (p *LiProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3775,7 +4123,7 @@ func Li(props *LiProps, children ...Component) Component {
 
 type LinkProps struct {
 	*GenericProps
-	X              map[string]string
+	X              Attributes
 	ID             string
 	Class          string
 	Style          map[string]string
@@ -3809,6 +4157,12 @@ func (p *LinkProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3935,7 +4289,7 @@ func Link(props *LinkProps, children ...Component) Component {
 
 type MainProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -3953,6 +4307,12 @@ func (p *MainProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -3983,7 +4343,7 @@ func Main(props *MainProps, children ...Component) Component {
 
 type MapProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4002,6 +4362,12 @@ func (p *MapProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4038,7 +4404,7 @@ func Map(props *MapProps, children ...Component) Component {
 
 type MarkProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4056,6 +4422,12 @@ func (p *MarkProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4086,7 +4458,7 @@ func Mark(props *MarkProps, children ...Component) Component {
 
 type MenuProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4104,6 +4476,12 @@ func (p *MenuProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4134,7 +4512,7 @@ func Menu(props *MenuProps, children ...Component) Component {
 
 type MetaProps struct {
 	*GenericProps
-	X         map[string]string
+	X         Attributes
 	ID        string
 	Class     string
 	Style     map[string]string
@@ -4157,6 +4535,12 @@ func (p *MetaProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4217,7 +4601,7 @@ func Meta(props *MetaProps, children ...Component) Component {
 
 type MeterProps struct {
 	*GenericProps
-	X       map[string]string
+	X       Attributes
 	ID      string
 	Class   string
 	Style   map[string]string
@@ -4241,6 +4625,12 @@ func (p *MeterProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4307,7 +4697,7 @@ func Meter(props *MeterProps, children ...Component) Component {
 
 type NavProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4325,6 +4715,12 @@ func (p *NavProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4355,7 +4751,7 @@ func Nav(props *NavProps, children ...Component) Component {
 
 type NoscriptProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4373,6 +4769,12 @@ func (p *NoscriptProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4403,7 +4805,7 @@ func Noscript(props *NoscriptProps, children ...Component) Component {
 
 type ObjectProps struct {
 	*GenericProps
-	X      map[string]string
+	X      Attributes
 	ID     string
 	Class  string
 	Style  map[string]string
@@ -4427,6 +4829,12 @@ func (p *ObjectProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4493,7 +4901,7 @@ func Object(props *ObjectProps, children ...Component) Component {
 
 type OlProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -4514,6 +4922,12 @@ func (p *OlProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4562,7 +4976,7 @@ func Ol(props *OlProps, children ...Component) Component {
 
 type OptgroupProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -4582,6 +4996,12 @@ func (p *OptgroupProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4624,7 +5044,7 @@ func Optgroup(props *OptgroupProps, children ...Component) Component {
 
 type OptionProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -4646,6 +5066,12 @@ func (p *OptionProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4700,7 +5126,7 @@ func Option(props *OptionProps, children ...Component) Component {
 
 type OutputProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4721,6 +5147,12 @@ func (p *OutputProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4769,7 +5201,7 @@ func Output(props *OutputProps, children ...Component) Component {
 
 type PProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4787,6 +5219,12 @@ func (p *PProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4817,7 +5255,7 @@ func P(props *PProps, children ...Component) Component {
 
 type PictureProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4835,6 +5273,12 @@ func (p *PictureProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4865,7 +5309,7 @@ func Picture(props *PictureProps, children ...Component) Component {
 
 type PreProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4883,6 +5327,12 @@ func (p *PreProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4913,7 +5363,7 @@ func Pre(props *PreProps, children ...Component) Component {
 
 type ProgressProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4933,6 +5383,12 @@ func (p *ProgressProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -4975,7 +5431,7 @@ func Progress(props *ProgressProps, children ...Component) Component {
 
 type QProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -4994,6 +5450,12 @@ func (p *QProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5030,7 +5492,7 @@ func Q(props *QProps, children ...Component) Component {
 
 type RpProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5048,6 +5510,12 @@ func (p *RpProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5078,7 +5546,7 @@ func Rp(props *RpProps, children ...Component) Component {
 
 type RtProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5096,6 +5564,12 @@ func (p *RtProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5126,7 +5600,7 @@ func Rt(props *RtProps, children ...Component) Component {
 
 type RubyProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5144,6 +5618,12 @@ func (p *RubyProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5174,7 +5654,7 @@ func Ruby(props *RubyProps, children ...Component) Component {
 
 type SProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5192,6 +5672,12 @@ func (p *SProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5222,7 +5708,7 @@ func S(props *SProps, children ...Component) Component {
 
 type SampProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5240,6 +5726,12 @@ func (p *SampProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5270,7 +5762,7 @@ func Samp(props *SampProps, children ...Component) Component {
 
 type ScriptProps struct {
 	*GenericProps
-	X              map[string]string
+	X              Attributes
 	ID             string
 	Class          string
 	Style          map[string]string
@@ -5298,6 +5790,12 @@ func (p *ScriptProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5388,7 +5886,7 @@ func Script(props *ScriptProps, children ...Component) Component {
 
 type SearchProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5406,6 +5904,12 @@ func (p *SearchProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5436,7 +5940,7 @@ func Search(props *SearchProps, children ...Component) Component {
 
 type SectionProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5454,6 +5958,12 @@ func (p *SectionProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5484,7 +5994,7 @@ func Section(props *SectionProps, children ...Component) Component {
 
 type SelectProps struct {
 	*GenericProps
-	X            map[string]string
+	X            Attributes
 	ID           string
 	Class        string
 	Style        map[string]string
@@ -5509,6 +6019,12 @@ func (p *SelectProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5581,7 +6097,7 @@ func Select(props *SelectProps, children ...Component) Component {
 
 type SlotProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5600,6 +6116,12 @@ func (p *SlotProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5636,7 +6158,7 @@ func Slot(props *SlotProps, children ...Component) Component {
 
 type SmallProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5654,6 +6176,12 @@ func (p *SmallProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5684,7 +6212,7 @@ func Small(props *SmallProps, children ...Component) Component {
 
 type SourceProps struct {
 	*GenericProps
-	X      map[string]string
+	X      Attributes
 	ID     string
 	Class  string
 	Style  map[string]string
@@ -5709,6 +6237,12 @@ func (p *SourceProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5781,7 +6315,7 @@ func Source(props *SourceProps, children ...Component) Component {
 
 type SpanProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5799,6 +6333,12 @@ func (p *SpanProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5829,7 +6369,7 @@ func Span(props *SpanProps, children ...Component) Component {
 
 type StrongProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5847,6 +6387,12 @@ func (p *StrongProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5877,7 +6423,7 @@ func Strong(props *StrongProps, children ...Component) Component {
 
 type StyleProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -5897,6 +6443,12 @@ func (p *StyleProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5939,7 +6491,7 @@ func Style(props *StyleProps, children ...Component) Component {
 
 type SubProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -5957,6 +6509,12 @@ func (p *SubProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -5987,7 +6545,7 @@ func Sub(props *SubProps, children ...Component) Component {
 
 type SummaryProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6005,6 +6563,12 @@ func (p *SummaryProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6035,7 +6599,7 @@ func Summary(props *SummaryProps, children ...Component) Component {
 
 type SupProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6053,6 +6617,12 @@ func (p *SupProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6083,7 +6653,7 @@ func Sup(props *SupProps, children ...Component) Component {
 
 type TableProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6101,6 +6671,12 @@ func (p *TableProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6131,7 +6707,7 @@ func Table(props *TableProps, children ...Component) Component {
 
 type TbodyProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6149,6 +6725,12 @@ func (p *TbodyProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6179,7 +6761,7 @@ func Tbody(props *TbodyProps, children ...Component) Component {
 
 type TdProps struct {
 	*GenericProps
-	X       map[string]string
+	X       Attributes
 	ID      string
 	Class   string
 	Style   map[string]string
@@ -6200,6 +6782,12 @@ func (p *TdProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6248,7 +6836,7 @@ func Td(props *TdProps, children ...Component) Component {
 
 type TemplateProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6266,6 +6854,12 @@ func (p *TemplateProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6296,7 +6890,7 @@ func Template(props *TemplateProps, children ...Component) Component {
 
 type TextareaProps struct {
 	*GenericProps
-	X            map[string]string
+	X            Attributes
 	ID           string
 	Class        string
 	Style        map[string]string
@@ -6327,6 +6921,12 @@ func (p *TextareaProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6435,7 +7035,7 @@ func Textarea(props *TextareaProps, children ...Component) Component {
 
 type TfootProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6453,6 +7053,12 @@ func (p *TfootProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6483,7 +7089,7 @@ func Tfoot(props *TfootProps, children ...Component) Component {
 
 type ThProps struct {
 	*GenericProps
-	X       map[string]string
+	X       Attributes
 	ID      string
 	Class   string
 	Style   map[string]string
@@ -6506,6 +7112,12 @@ func (p *ThProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6566,7 +7178,7 @@ func Th(props *ThProps, children ...Component) Component {
 
 type TheadProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6584,6 +7196,12 @@ func (p *TheadProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6614,7 +7232,7 @@ func Thead(props *TheadProps, children ...Component) Component {
 
 type TimeProps struct {
 	*GenericProps
-	X        map[string]string
+	X        Attributes
 	ID       string
 	Class    string
 	Style    map[string]string
@@ -6633,6 +7251,12 @@ func (p *TimeProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6669,7 +7293,7 @@ func Time(props *TimeProps, children ...Component) Component {
 
 type TitleProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6687,6 +7311,12 @@ func (p *TitleProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6717,7 +7347,7 @@ func Title(props *TitleProps, children ...Component) Component {
 
 type TrProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6735,6 +7365,12 @@ func (p *TrProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6765,7 +7401,7 @@ func Tr(props *TrProps, children ...Component) Component {
 
 type TrackProps struct {
 	*GenericProps
-	X       map[string]string
+	X       Attributes
 	ID      string
 	Class   string
 	Style   map[string]string
@@ -6788,6 +7424,12 @@ func (p *TrackProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6848,7 +7490,7 @@ func Track(props *TrackProps, children ...Component) Component {
 
 type UProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6866,6 +7508,12 @@ func (p *UProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6896,7 +7544,7 @@ func U(props *UProps, children ...Component) Component {
 
 type UlProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6914,6 +7562,12 @@ func (p *UlProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6944,7 +7598,7 @@ func Ul(props *UlProps, children ...Component) Component {
 
 type VarProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -6962,6 +7616,12 @@ func (p *VarProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -6992,7 +7652,7 @@ func Var(props *VarProps, children ...Component) Component {
 
 type VideoProps struct {
 	*GenericProps
-	X           map[string]string
+	X           Attributes
 	ID          string
 	Class       string
 	Style       map[string]string
@@ -7021,6 +7681,12 @@ func (p *VideoProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}
@@ -7117,7 +7783,7 @@ func Video(props *VideoProps, children ...Component) Component {
 
 type WbrProps struct {
 	*GenericProps
-	X     map[string]string
+	X     Attributes
 	ID    string
 	Class string
 	Style map[string]string
@@ -7135,6 +7801,12 @@ func (p *WbrProps) writeTo(w io.Writer) error {
 	}
 	if p.Style != nil {
 		err := writeStyle(p.Style, w)
+		if err != nil {
+			return err
+		}
+	}
+	if p.X != nil {
+		err := p.X.writeTo(w)
 		if err != nil {
 			return err
 		}

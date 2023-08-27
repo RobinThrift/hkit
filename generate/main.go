@@ -27,7 +27,7 @@ func main() {
 		propsFields := make([]jen.Code, len(el.attrs)+5)
 
 		propsFields[0] = jen.Id("*GenericProps")
-		propsFields[1] = jen.Id("X").Map(jen.String()).String()
+		propsFields[1] = jen.Id("X").Id("Attributes")
 		propsFields[2] = jen.Id("ID").String()
 		propsFields[3] = jen.Id("Class").String()
 		propsFields[4] = jen.Id("Style").Map(jen.String()).String()
@@ -52,6 +52,13 @@ func main() {
 
 		writeStatements = append(writeStatements, jen.If(jen.Id("p").Dot("Style").Op("!=").Nil()).Block(
 			jen.Id("err").Op(":=").Id("writeStyle").Call(jen.Id("p").Dot("Style"), jen.Id("w")),
+			jen.If(jen.Id("err").Op("!=").Nil()).Block(
+				jen.Return(jen.Id("err")),
+			),
+		))
+
+		writeStatements = append(writeStatements, jen.If(jen.Id("p").Dot("X").Op("!=").Nil()).Block(
+			jen.Id("err").Op(":=").Id("p").Dot("X").Dot("writeTo").Call(jen.Id("w")),
 			jen.If(jen.Id("err").Op("!=").Nil()).Block(
 				jen.Return(jen.Id("err")),
 			),
