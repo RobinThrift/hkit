@@ -1,6 +1,12 @@
 # Changelog
 
 
+<a name="v0.5.1"></a>
+## [v0.5.1] - 2023-08-27
+### Fixes
+- Fix text rendering to not auto insert newlines
+
+
 <a name="v0.5.0"></a>
 ## [v0.5.0] - 2023-08-27
 ### Features
@@ -38,7 +44,8 @@
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2021-04-08
 
-[Unreleased]: https://github.com/RobinThrift/hkit/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/RobinThrift/hkit/compare/v0.5.1...HEAD
+[v0.5.1]: https://github.com/RobinThrift/hkit/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/RobinThrift/hkit/compare/v0.4.0...v0.5.0
 [v0.4.0]: https://github.com/RobinThrift/hkit/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/RobinThrift/hkit/compare/v0.2.1...v0.3.0
