@@ -1,6 +1,7 @@
 package hkit
 
 import (
+	"bytes"
 	"io"
 )
 
@@ -42,7 +43,7 @@ func (t textComponent) Render(w io.Writer) error {
 	return t.RenderIndent(w, "", "")
 }
 
-func (t textComponent) RenderIndent(w io.Writer, prefix string, indent string) error {
+func (t textComponent) RenderIndent(w io.Writer, prefix string, _ string) error {
 	switch len(t.text) {
 	case 0:
 		return nil
@@ -51,19 +52,29 @@ func (t textComponent) RenderIndent(w io.Writer, prefix string, indent string) e
 		return err
 	}
 
-	_, err := w.Write([]byte(prefix + t.text[0]))
+	var b bytes.Buffer
+	size := len(t.text) * len(prefix)
+
+	for _, s := range t.text {
+		size += len(s)
+	}
+
+	b.Grow(size)
+
+	_, err := b.WriteString(prefix + t.text[0])
 	if err != nil {
 		return err
 	}
 
 	for _, s := range t.text[1:] {
-		_, err = w.Write([]byte("\n" + prefix + s))
+		_, err = b.WriteString(prefix + s)
 		if err != nil {
 			return err
 		}
 	}
 
-	return nil
+	_, err = b.WriteTo(w)
+	return err
 }
 
 func (g *GenericProps) writeTo(w io.Writer) error { //nolint: gocyclo,gocognit,varnamelen // this is just a encoder, ignore
